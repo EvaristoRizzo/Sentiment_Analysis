@@ -3,39 +3,46 @@ import numpy as np
 import nltk
 import pandas as pd
 import re
+from termcolor import colored
 
 # print(tf.__version__)
 # print(np.__version__)
 # print(nltk.__version__)
 
-df_software = pd.read_json('data/Software_5.json', lines = True)
-# dt_science = pd.read_json('data/Industrial_and_Scientific_5.json', lines = True)
+df_software = pd.read_json('data/Software_5.json', lines = True, encoding='utf-8')
+df_science = pd.read_json('data/Industrial_and_Scientific_5.json', lines = True)
 
-print(df_software.head())
+# print(df_software.head())
 
 text = df_software['reviewText'].values
-print(text[0:2])
+# text = df_science['reviewText'].values
+text = [x for x in text if str(x) != "nan"]
 
-def cleanText(text):
-    text = text.lower()
-    text = re.sub(r"i'm", "i am", text)
-    text = re.sub(r"he's", "he is", text)
-    text = re.sub(r"that's", "that is", text)
-    text = re.sub(r"what's", "what is", text)
-    text = re.sub(r"where's", "where is", text) 
-    text = re.sub(r"\'ll", " will", text)
-    text = re.sub(r"\'ve", " have", text)
-    text = re.sub(r"\'d", " would", text)
-    text = re.sub(r"\'re", " are", text)
-    text = re.sub(r"won't", "will not", text)
-    text = re.sub(r"can't", "cannot", text)
-    text = re.sub(r"[-()\"#/@;:<>{}+=./|.!?,~]", "", text)
-    return text
+print(colored('---------- TEXT ----------', 'green', attrs=['bold']))
+print(text[10403])
 
+def cleanText(string, ):
+    
+    print(colored('---------- NEW ----------', 'green', attrs=['bold']))
+    print(string)
+    string = re.sub(r"[^A-Za-z0-9(),!?\'\`]", " ", string)
+    string = re.sub(r"\'s", " \'s", string)
+    string = re.sub(r"\'ve", " \'ve", string)
+    string = re.sub(r"n\'t", " n\'t", string)
+    string = re.sub(r"\'re", " \'re", string)
+    string = re.sub(r"\'d", " \'d", string)
+    string = re.sub(r"\'ll", " \'ll", string)
+    string = re.sub(r",", " , ", string)
+    string = re.sub(r"!", " ! ", string)
+    string = re.sub(r"\(", " \( ", string)
+    string = re.sub(r"\)", " \) ", string)
+    string = re.sub(r"\?", " \? ", string)
+    string = re.sub(r"\s{2,}", " ", string)
+    print(colored('---------- CLEAN ----------', 'green', attrs=['bold']))
+    print(string.strip().lower())
+    return string.strip().lower()
 
-clean_text = []
+clean_text = [cleanText(sent) for sent in text]
 
-for t in text[0:1]:
-    clean_text.append(cleanText(t))
-
-print(clean_text[0])
+# print(colored('---------- CLEAN TEXT ----------', 'red', attrs=['bold']))
+# print(clean_text[0:2])
