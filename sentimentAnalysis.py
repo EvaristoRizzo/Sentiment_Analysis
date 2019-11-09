@@ -68,39 +68,25 @@ cleanT = []
 for t in text:
     cleanT.append(cleanText(t))
 
-print(cleanT[0])
-
-# text = [cleanText(sent) for sent in text[0]]
-
 # removing common words by using the Stopwords
 
-# stop_words =  ['if', 'do', '\'ve' , '\'s' ,'few', "it's", "shouldn't", 'myself', 'its', 'has', 'with', 'been', 'can', 'won', "you'll", 'below', "weren't", 'into', 'him', 'this', 'above', 'our', "needn't", 'here', 'i', 'me', 'all', 're', "won't", 'don', 'should', 'such', 'or', 'for', "couldn't", 'what', "should've", 'does', 'hers', 'other', "that'll", "doesn't", "wasn't", 'once', 'while', 'between', 'mightn', "hasn't", 'too', 'up', 'before', 'their', 'himself', 'it', "you'd", 'some', 'themselves', 'ain', 'an', 'ours', 'at', 'haven', 'about', 'just', 'shouldn', 'o', 'both', 'out', "isn't", 'll', 'ma', 'you', "haven't", 'only', 'hadn', 'those', 'they', 'against', 'down', 'over', 't', 'she', 'again', 'why', 'did', 'wouldn', 'a', 'when', 'your', 'ourselves', 'who', 'having', 'on', 'y', 'theirs', 'being', 'herself', 'nor', 'that', 'by', "don't", "mustn't", "shan't", 'because', 'not', 'under', 'are', 'he', 'own', "you've", 'there', 'yours', 'and', 'most', "mightn't", 'have', 'doing', 'during', 'couldn', "didn't", 'will', 'weren', 'd', 'were', "she's", "wouldn't", 'isn', 'then', 'doesn', 'wasn', 'itself', 'now', 'didn', 'these', 'them', 'needn', 'yourself', 'shan', 'is', 'more', 'be', "you're", 'than', 'after', 'aren', 'how', 'where', 'which', 'in', "hadn't", 'further', 'no', 'yourselves', 'as', 'whom', 'to', 'hasn', 'mustn', 'through', 'the', 'm', 's', 'very', 'we', 'each', 'until', 'same', "aren't", 'was', 'my', 'so', 'from', 've', 'am', 'had', 'his', 'but', 'off', 'any', 'of', 'her']
-# punctuation = list(string.punctuation)
+stop_words =  ['if', 'do', '\'ve' , '\'ll' , 'n\'t' , '\'re' , '\'s' ,'few', "it's", "shouldn't", 'myself', 'its', 'has', 'with', 'been', 'can', 'won', "you'll", 'below', "weren't", 'into', 'him', 'this', 'above', 'our', "needn't", 'here', 'i', 'me', 'all', 're', "won't", 'don', 'should', 'such', 'or', 'for', "couldn't", 'what', "should've", 'does', 'hers', 'other', "that'll", "doesn't", "wasn't", 'once', 'while', 'between', 'mightn', "hasn't", 'too', 'up', 'before', 'their', 'himself', 'it', "you'd", 'some', 'themselves', 'ain', 'an', 'ours', 'at', 'haven', 'about', 'just', 'shouldn', 'o', 'both', 'out', "isn't", 'll', 'ma', 'you', "haven't", 'only', 'hadn', 'those', 'they', 'against', 'down', 'over', 't', 'she', 'again', 'why', 'did', 'wouldn', 'a', 'when', 'your', 'ourselves', 'who', 'having', 'on', 'y', 'theirs', 'being', 'herself', 'nor', 'that', 'by', "don't", "mustn't", "shan't", 'because', 'not', 'under', 'are', 'he', 'own', "you've", 'there', 'yours', 'and', 'most', "mightn't", 'have', 'doing', 'during', 'couldn', "didn't", 'will', 'weren', 'd', 'were', "she's", "wouldn't", 'isn', 'then', 'doesn', 'wasn', 'itself', 'now', 'didn', 'these', 'them', 'needn', 'yourself', 'shan', 'is', 'more', 'be', "you're", 'than', 'after', 'aren', 'how', 'where', 'which', 'in', "hadn't", 'further', 'no', 'yourselves', 'as', 'whom', 'to', 'hasn', 'mustn', 'through', 'the', 'm', 's', 'very', 'we', 'each', 'until', 'same', "aren't", 'was', 'my', 'so', 'from', 've', 'am', 'had', 'his', 'but', 'off', 'any', 'of', 'her']
+punctuation = list(string.punctuation)
 
-# stop = stop_words + punctuation
+stop = stop_words + punctuation
 
 
-# clean_text = []
+clean_text = []
 
-# sentence = cleanT[0]
-# print(sentence)
-# sent_words = sentence.split()
-# print(sent_words)
-# words = [i for i in sent_words if i not in stop]
+for s in cleanT:
+    sentence = s
+    sent_words = sentence.split()
+    words = [i for i in sent_words if i not in stop]
+    output = ' '.join(words)
+    clean_text.append(output)
 
-# output = ' '.join(words)
-# print(output)
-
-# for s in cleanT[0]:
-#     sent_words = str(s).split()
-#     words = [i for i in sent_words if i not in stop and i[0] != "'"]
-#     clean_text.append(' '.join(words))
-
-# print(clean_text)
-
-# for s in sentence:
-#     clean_text.append(" ".join(i for i in word_tokenize(s.lower) if i not in stop))
-
-# # clean_text.append(" ".join(i for i in sentence[0] if i not in stop))
-
-# print(clean_text)
+print(colored('---------- CLEAN TEXT ----------', 'green', attrs=['bold']))
+for s in clean_text[0:10]:
+    print(colored('---------- NEXT ----------', 'red', attrs=['bold']))
+    print(s)
+print(score[0:10])
