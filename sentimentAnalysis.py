@@ -6,6 +6,12 @@ from termcolor import colored
 import string
 from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import train_test_split
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # print(tf.__version__)
 # print(np.__version__)
@@ -21,8 +27,8 @@ df = pd.concat([df_software, df_science])
 df_text = df['reviewText'].values
 df_score = df['overall'].values
 
-print(len(df_text))
-print(len(df_score))
+# print(len(df_text))
+# print(len(df_score))
 
 # text_uncleaned = df_software['reviewText'].values
 # score_uncleaned = df_software['overall'].values
@@ -47,9 +53,9 @@ for i in range(len(df_text)):
         c += 1
         print(i)
 
-print(len(text))
-print(len(score))
-print(c)
+# print(len(text))
+# print(len(score))
+# print(c)
 
 # print(colored('---------- TEXT ----------', 'green', attrs=['bold']))
 # print(text[10403])
@@ -120,10 +126,10 @@ for i in range(len(score)):
         negative_reviews.append(clean_text[i])
         negative_score.append(score[i])
 
-print(len(positive_reviews))
-print(len(positive_score))
-print(len(negative_reviews))
-print(len(negative_score))
+# print(len(positive_reviews))
+# print(len(positive_score))
+# print(len(negative_reviews))
+# print(len(negative_score))
 
 # >= 3
 # 83239
@@ -150,6 +156,72 @@ def wordcloud_draw(data, color = 'black'):
 # for i in range(len(positive_reviews[0:10])):
 #     positive_words += str(positive_reviews[i])
 
-
 # wordcloud_draw(negative_words)
 # wordcloud_draw(positive_words, 'white')
+
+
+# Splitting Training and Testing Data
+
+X_train, X_test, Y_train, Y_test = train_test_split(clean_text, score, test_size = 0.3 , random_state = 0)
+
+print(len(X_train))
+print(len(X_test))
+print(len(Y_train))
+print(len(Y_test))
+
+
+# print(X_train[0:2])
+print(Y_train[0:5])
+# print(X_test[0:2])
+print(Y_test[0:5])
+
+# Tokenization and Padding with Keras
+def encodeData(y):
+        y = np.reshape(y, (-1, 1))
+        onehotencoder  =  OneHotEncoder()
+        y = onehotencoder.fit_transform(y).toarray()
+        return y
+
+y_train = encodeData(Y_train)
+y_test = encodeData(Y_test)
+
+print(y_train.shape)
+print(y_train[0:10])
+print(y_test.shape)
+print(y_test[0:10])
+
+def tokenizeData(data ,X_train, X_test, max_words, maxlen):
+        
+        max_words = max_words
+
+        # Tokenisation and making data into a LIST
+        tokenizer = Tokenizer(num_words = max_words)
+        tokenizer.fit_on_texts(data)
+        print('LENGTH Vocab = ', len(tokenizer.word_index))
+        # print("word_index : ",tokenizer.word_index)
+        print(colored('---------- BEFORE ----------', 'green', attrs=['bold']))
+        print(X_train[1])
+        print(colored('--------------------', 'blue', attrs=['bold']))
+        print(X_test[1])
+        X_train = tokenizer.texts_to_sequences(X_train)
+        X_test = tokenizer.texts_to_sequences(X_test)
+
+        print(colored('---------- TOKEN ----------', 'red', attrs=['bold']))
+        print(X_train[1])
+        print(colored('--------------------', 'blue', attrs=['bold']))
+        print(X_test[1])
+        maxlen = maxlen
+
+        X_train = pad_sequences(X_train, padding='post', maxlen=maxlen)
+        X_test = pad_sequences(X_test, padding='post', maxlen=maxlen)
+
+        print(colored('---------- PAD ----------', 'green', attrs=['bold']))
+        print(X_train[1])
+        print(colored('--------------------', 'blue', attrs=['bold']))
+        print(X_test[1])
+        return X_train, X_test
+
+max_words = 70000
+max_len = 100
+
+x_train, x_test = tokenizeData(clean_text, X_train, X_test, max_words, max_len)
