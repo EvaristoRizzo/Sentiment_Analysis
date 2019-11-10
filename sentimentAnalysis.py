@@ -113,10 +113,10 @@ negative_reviews = []
 negative_score = []
 
 for i in range(len(score)):
-    if score[i] == 5:
+    if score[i] > 3:
         positive_reviews.append(clean_text[i])
         positive_score.append(score[i])
-    elif score[i] == 1:
+    else:
         negative_reviews.append(clean_text[i])
         negative_score.append(score[i])
 
@@ -140,16 +140,16 @@ def wordcloud_draw(data, color = 'black'):
     plt.axis('off')
     plt.show()
 
-negative_words = ""
+# negative_words = ""
 
-for i in range(len(negative_reviews)):
-    negative_words += str(negative_reviews[i])
+# for i in range(len(negative_reviews)):
+#     negative_words += str(negative_reviews[i])
 
-positive_words = ""
+# positive_words = ""
 
-for i in range(len(positive_reviews[0:100])):
-    positive_words += str(positive_reviews[i])
+# for i in range(len(positive_reviews[0:10])):
+#     positive_words += str(positive_reviews[i])
 
 
-wordcloud_draw(negative_words)
-wordcloud_draw(positive_words, 'white')
+# wordcloud_draw(negative_words)
+# wordcloud_draw(positive_words, 'white')
