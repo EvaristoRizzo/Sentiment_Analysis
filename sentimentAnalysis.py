@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 # print(nltk.__version__)
 
 df_software = pd.read_json('data/Software_5.json', lines = True, encoding='utf-8')
-df_science = pd.read_json('data/Industrial_and_Scientific_5.json', lines = True)
+df_science = pd.read_json('data/Industrial_and_Scientific_5.json', lines = True,encoding='utf-8')
 
 df = pd.concat([df_software, df_science])
 
