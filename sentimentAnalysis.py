@@ -225,3 +225,8 @@ max_words = 70000
 max_len = 100
 
 x_train, x_test = tokenizeData(clean_text, X_train, X_test, max_words, max_len)
+
+classes = np.unique(score)
+print(classes)
+num_classes = len(classes)
+print(num_classes)
